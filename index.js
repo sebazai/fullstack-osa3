@@ -42,8 +42,7 @@ app.get('/api/persons/:id', (request, response) => {
     console.log(id)
     const person = persons.find(person => person.id === id)
       if (person) {
-          const information = `<p>ID: ${person.id} <br /> Nimi: ${person.name}<br />Numero: ${person.number}</p>`
-          response.send(information)
+          response.json(person)
       } else {
           response.status(404).end()
       }
@@ -52,6 +51,7 @@ app.get('/api/persons/:id', (request, response) => {
 app.delete('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     persons = persons.filter(person => person.id !== id)
+    
   
     response.status(204).end()
   })
