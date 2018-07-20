@@ -87,7 +87,7 @@ app.post('/api/persons', (request, response) => {
 
 
 
-const PORTTI = process.env.PORTTI ||3001
+const PORTTI = process.env.PORT ||3001
 app.listen(PORTTI, () => {
     console.log(`Serveri running on portti ${PORTTI}`)
 })
