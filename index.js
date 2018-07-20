@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
-
+const cors = require('cors')
 
 
 let persons = [
@@ -35,6 +35,7 @@ morgan.token('body', function (req, res) {
 
 app.use(bodyParser.json())
 app.use(morgan(':method :url :body :status :res[content-length] - :response-time ms'))
+app.use(cors())
 
 
 app.get('/api/persons', (request, response) => {
@@ -86,7 +87,7 @@ app.post('/api/persons', (request, response) => {
 
 
 
-const PORTTI = 3001
+const PORTTI = process.env.PORTTI ||3001
 app.listen(PORTTI, () => {
     console.log(`Serveri running on portti ${PORTTI}`)
 })
