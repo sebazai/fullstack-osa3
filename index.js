@@ -70,30 +70,42 @@ app.delete('/api/persons/:id', (request, response) => {
     //response.status(204).end()
   })
 
-  app.put('/api/persons/:id', (request, response) => {
-      const body = request.body
-      const person = {
-          name: body.name,
-          number: body.number
-      }
+app.put('/api/persons/:id', (request, response) => {
+    const body = request.body
+    const person = {
+        name: body.name,
+        number: body.number
+    }
 
-      Person
-        .findByIdAndUpdate(request.params.id, person, {new:true})
-        .then(updatedPerson => {response.json(Person.format(updatedPerson))})
-        .catch(error => {
-            console.log(error)
-            response.status(400).send({error: 'malformatted id'})
-        })
-  })
+    Person
+    .findByIdAndUpdate(request.params.id, person, {new:true})
+    .then(updatedPerson => {response.json(Person.format(updatedPerson))})
+    .catch(error => {
+        console.log(error)
+        response.status(400).send({error: 'malformatted id'})
+    })
+})
 
 
 app.post('/api/persons', (request, response) => {
     const body = request.body
     if (!body.hasOwnProperty('name') || body.name === "") {
         return response.status(400).json({error: 'name missing'})
-    } else if(persons.some(p => p.name === body.name)) {
-        return response.status(400).json({error: 'name must be unique'})
-    } else if(!body.hasOwnProperty('number') || body.number === "") {
+    } /*else if(
+        Person
+        .find({name: body.name})
+        .then(personFound => {
+            console.log(personFound)
+            console.log(body.name)
+            if(personFound.name === body.name) {
+                return true
+            } else {
+                return false
+            }
+        })
+    )  
+        return response.status(400).json({error: 'name must be unique'})*/
+     else if(!body.hasOwnProperty('number') || body.number === "") {
         return response.status(400).json({error: 'number missing'})
     }
 
@@ -102,17 +114,26 @@ app.post('/api/persons', (request, response) => {
         number: body.number
     })
 
-    person
-        .save()
-        .then(savedPerson => {
-            response.json(Person.format(savedPerson))
+    Person
+        .findOne({name: body.name})
+        .then(foundPerson => {
+            if(foundPerson === null) {
+                person
+                    .save()
+                    .then(savedPerson => {
+                        response.json(Person.format(savedPerson))
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            } else if (foundPerson.name === body.name) {
+                return response.status(400).json({error: 'name must be unique'})
+            }
         })
         .catch(error => {
             console.log(error)
         })
-    /*persons = persons.concat(person)
-    response.json(person)*/
-    
+
 })
 
 
