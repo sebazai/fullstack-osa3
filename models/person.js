@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const url = "mongodb://diana:Carles123@ds245661.mlab.com:45661/seba-puhelinluettelo"
+const url = process.env.MONGODB_URI
 
 mongoose.connect(url, { useNewUrlParser: true })
 
