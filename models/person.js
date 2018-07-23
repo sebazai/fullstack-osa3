@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config()
+  require('dotenv').config()
 }
 const url = process.env.MONGODB_URI
 
@@ -14,11 +14,11 @@ const schema = new mongoose.Schema({
 })
 
 schema.statics.format = function(person) {
-    return {
-        id: person._id,
-        name: person.name,
-        number: person.number
-    }
+  return {
+    id: person._id,
+    name: person.name,
+    number: person.number
+  }
 }
 
 const Person = mongoose.model('Person', schema)

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "Error: no test specified",
     "start": "node index.js",
-    "watch": "nodemon index.js"
+    "watch": "nodemon index.js",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "morgan": "^1.9.0"
   },
   "devDependencies": {
+    "eslint": "^5.2.0",
     "nodemon": "^1.18.3"
   }
 }
